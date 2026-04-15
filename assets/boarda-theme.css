@@ -109,6 +109,19 @@ nav img[alt] {
   object-fit: contain;
 }
 
+/* Invert Boarda icon in dark mode (matches all Boarda portals) */
+[data-theme="dark"] nav img,
+[data-theme="dark"] nav .logo img {
+  filter: invert(100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) nav img,
+  :root:not([data-theme="light"]) nav .logo img {
+    filter: invert(100%);
+  }
+}
+
 nav .logo-text,
 nav a[href="/"] span,
 nav .site-name {
@@ -146,8 +159,10 @@ nav .site-name {
   color: var(--body-text-color);
   font-size: 12px;
   font-weight: 500;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
   transition: background 0.15s;
   opacity: 0.5;
+  white-space: nowrap;
 }
 
 #boarda-theme-toggle button:hover {
