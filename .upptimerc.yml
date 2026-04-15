@@ -27,7 +27,8 @@ status-website:
   name: Boarda Status
   logoUrl: https://raw.githubusercontent.com/boarda/boarda-status/main/assets/icon.svg
   favicon: https://raw.githubusercontent.com/boarda/boarda-status/main/assets/favicon.ico
-  theme: dark
+  theme: light
+  themeUrl: https://raw.githubusercontent.com/boarda/boarda-status/main/assets/boarda-theme.css
   navbar:
     - title: Status
       href: /
