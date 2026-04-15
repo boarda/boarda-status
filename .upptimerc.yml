@@ -38,4 +38,4 @@ status-website:
     - src: https://raw.githubusercontent.com/boarda/boarda-status/main/assets/theme-toggle.js
 
 i18n:
-  footer: "© Boarda. All rights reserved."
+  footer: "© Boarda. All rights reserved. Powered by Upptime."
