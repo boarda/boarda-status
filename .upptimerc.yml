@@ -16,7 +16,7 @@ sites:
     url: https://developers.boarda.io
     slug: developers
   - name: API Gateway
-    url: https://api.boarda.io/health
+    url: https://api.boarda.io/_health
     slug: api-gateway
 
 status-website:
