@@ -25,17 +25,17 @@ sites:
 status-website:
   cname: status.boarda.io
   name: Boarda Status
-  logoUrl: https://raw.githubusercontent.com/boarda/boarda-status/main/assets/icon.svg
-  favicon: https://raw.githubusercontent.com/boarda/boarda-status/main/assets/favicon.ico
+  logoUrl: https://cdn.jsdelivr.net/gh/boarda/boarda-status@main/assets/icon.svg
+  favicon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@main/assets/favicon.ico
   theme: light
-  themeUrl: https://raw.githubusercontent.com/boarda/boarda-status/main/assets/boarda-theme.css
+  themeUrl: https://cdn.jsdelivr.net/gh/boarda/boarda-status@main/assets/boarda-theme.css
   navbar:
     - title: Status
       href: /
     - title: boarda.io
       href: https://boarda.io
   scripts:
-    - src: https://raw.githubusercontent.com/boarda/boarda-status/main/assets/theme-toggle.js
+    - src: https://cdn.jsdelivr.net/gh/boarda/boarda-status@main/assets/theme-toggle.js
 
 i18n:
-  footer: "© Boarda. All rights reserved. Powered by Upptime."
+  footer: "© Boarda. All rights reserved. Powered by [Upptime](https://upptime.js.org)."
