@@ -33,9 +33,26 @@
     });
   }
 
+  function removeStatusEmoji() {
+    // Remove ✅ ⚠️ 🔴 emoji from status indicator text (Upptime injects these)
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+    var nodes = [];
+    var node;
+    while ((node = walker.nextNode())) {
+      if (/[\u2705\u26A0\uFE0F\uD83D\uDD34]/.test(node.textContent)) nodes.push(node);
+    }
+    nodes.forEach(function (n) {
+      n.textContent = n.textContent
+        .replace(/✅\s*/g, "")
+        .replace(/⚠️\s*/g, "")
+        .replace(/🔴\s*/g, "");
+    });
+  }
+
   function init() {
     var current = getStored();
     apply(current);
+    removeStatusEmoji();
 
     var wrap = document.createElement("div");
     wrap.id = "boarda-theme-toggle";
