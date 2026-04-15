@@ -1,0 +1,31 @@
+owner: boarda
+repo: boarda-status
+user-agent: boarda
+
+sites:
+  - name: Website
+    url: https://boarda.io
+    slug: website
+  - name: Studio
+    url: https://beta.studio.boarda.io
+    slug: studio
+  - name: Account
+    url: https://account.boarda.io
+    slug: account
+  - name: Developers
+    url: https://developers.boarda.io
+    slug: developers
+  - name: API Gateway
+    url: https://api.boarda.io/health
+    slug: api-gateway
+
+status-website:
+  cname: status.boarda.io
+  name: Boarda Status
+  logoUrl: https://raw.githubusercontent.com/boarda/boarda-status/master/assets/logo.svg
+  theme: dark
+  navbar:
+    - title: Status
+      href: /
+    - title: boarda.io
+      href: https://boarda.io
