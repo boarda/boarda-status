@@ -22,7 +22,8 @@ sites:
 status-website:
   cname: status.boarda.io
   name: Boarda Status
-  logoUrl: https://raw.githubusercontent.com/boarda/boarda-status/master/assets/logo.svg
+  logoUrl: https://raw.githubusercontent.com/boarda/boarda-status/main/assets/icon.svg
+  favicon: https://raw.githubusercontent.com/boarda/boarda-status/main/assets/favicon.ico
   theme: dark
   navbar:
     - title: Status
