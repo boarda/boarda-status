@@ -1,0 +1,62 @@
+/* Boarda Status Page — custom theme
+   Matches the IBM Carbon-inspired design tokens shared across all Boarda portals.
+   Automatically switches light ↔ dark based on the visitor's system preference.
+   ─────────────────────────────────────────────────────────────────────────────── */
+
+/* ── Light (IBM Carbon White) ─────────────────────────────────────── */
+:root {
+  --body-background-color: hsl(0, 0%, 100%);
+  --body-text-color: hsl(0, 0%, 8%);
+  --card-background-color: hsl(0, 0%, 96%);
+  --nav-background-color: hsl(0, 0%, 100%);
+  --nav-border-bottom-color: hsl(0, 0%, 88%);
+  --nav-current-border-bottom-color: hsl(217, 99%, 53%);
+  --card-border-color: hsl(0, 0%, 88%);
+  --down-border-left-color: #da1e28;
+  --down-background-color: #fff1f1;
+  --degraded-border-left-color: #f1c21b;
+  --up-border-left-color: #24a148;
+  --tag-color: hsl(0, 0%, 100%);
+  --tag-up-background-color: #24a148;
+  --tag-down-background-color: #da1e28;
+  --tag-degraded-background-color: #f1c21b;
+  --change-background-color: #fdf6dd;
+  --error-button-border-color: hsl(217, 99%, 43%);
+  --error-button-background-color: hsl(217, 99%, 53%);
+  --error-button-color: #ffffff;
+  --submit-button-border-color: hsl(217, 99%, 43%);
+  --submit-button-background-color: hsl(217, 99%, 53%);
+  --submit-button-color: #ffffff;
+  --graph-opacity: 1;
+  --graph-filter: none;
+}
+
+/* ── Dark (IBM Carbon Gray 100) ───────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --body-background-color: hsl(0, 0%, 8%);
+    --body-text-color: hsl(0, 0%, 96%);
+    --card-background-color: hsl(0, 0%, 15%);
+    --nav-background-color: hsl(0, 0%, 15%);
+    --nav-border-bottom-color: hsl(0, 0%, 32%);
+    --nav-current-border-bottom-color: hsl(216, 100%, 64%);
+    --card-border-color: hsl(0, 0%, 32%);
+    --down-border-left-color: #ff8389;
+    --down-background-color: hsl(356, 30%, 16%);
+    --degraded-border-left-color: #f1c21b;
+    --up-border-left-color: #42be65;
+    --tag-color: hsl(0, 0%, 8%);
+    --tag-up-background-color: #42be65;
+    --tag-down-background-color: #ff8389;
+    --tag-degraded-background-color: #f1c21b;
+    --change-background-color: hsl(0, 0%, 22%);
+    --error-button-border-color: hsl(216, 100%, 54%);
+    --error-button-background-color: hsl(216, 100%, 64%);
+    --error-button-color: #ffffff;
+    --submit-button-border-color: hsl(216, 100%, 54%);
+    --submit-button-background-color: hsl(216, 100%, 64%);
+    --submit-button-color: #ffffff;
+    --graph-opacity: 0.9;
+    --graph-filter: none;
+  }
+}
