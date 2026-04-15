@@ -109,15 +109,13 @@ nav img[alt] {
   object-fit: contain;
 }
 
-/* Invert Boarda icon in dark mode (matches all Boarda portals) */
-[data-theme="dark"] nav img,
-[data-theme="dark"] nav .logo img {
+/* Invert Boarda icon in dark mode — targets all icon.svg instances (nav + service rows) */
+[data-theme="dark"] img[src*="icon.svg"] {
   filter: invert(100%);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) nav img,
-  :root:not([data-theme="light"]) nav .logo img {
+  :root:not([data-theme="light"]) img[src*="icon.svg"] {
     filter: invert(100%);
   }
 }
@@ -141,9 +139,9 @@ nav .site-name {
   gap: 2px;
   padding: 4px;
   border-radius: 8px;
-  background: var(--card-background-color);
-  border: 1px solid var(--nav-border-bottom-color);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  background: var(--card-background-color, #f4f4f4);
+  border: 1px solid var(--nav-border-bottom-color, #e0e0e0);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 #boarda-theme-toggle button {
@@ -156,21 +154,100 @@ nav .site-name {
   border-radius: 6px;
   background: transparent;
   cursor: pointer;
-  color: var(--body-text-color);
+  color: var(--body-text-color, #141414);
   font-size: 12px;
   font-weight: 500;
   font-family: "IBM Plex Sans", system-ui, sans-serif;
   transition: background 0.15s;
-  opacity: 0.5;
+  opacity: 0.65;
   white-space: nowrap;
 }
 
 #boarda-theme-toggle button:hover {
-  background: var(--nav-border-bottom-color);
+  background: var(--nav-border-bottom-color, #e0e0e0);
   opacity: 1;
 }
 
 #boarda-theme-toggle button.active {
-  background: var(--nav-border-bottom-color);
+  background: var(--nav-border-bottom-color, #e0e0e0);
   opacity: 1;
+}
+
+#boarda-theme-toggle svg {
+  flex-shrink: 0;
+}
+
+/* ── Subscribe card ───────────────────────────────────────────────── */
+#boarda-subscribe-section {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1.5rem 2rem;
+}
+
+#boarda-subscribe-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--card-background-color, #f4f4f4);
+  border: 1px solid var(--card-border-color, #e0e0e0);
+  border-radius: 8px;
+}
+
+.subscribe-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--body-background-color, #fff);
+  border: 1px solid var(--card-border-color, #e0e0e0);
+  border-radius: 8px;
+  color: var(--body-text-color, #141414);
+}
+
+.subscribe-content h4 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--body-text-color, #141414);
+}
+
+.subscribe-content p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--body-text-color, #141414);
+  opacity: 0.7;
+}
+
+.subscribe-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.subscribe-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px;
+  text-decoration: none !important;
+  background: var(--body-text-color, #141414);
+  color: var(--body-background-color, #fff) !important;
+  border: 1px solid transparent;
+  transition: opacity 0.15s;
+}
+
+.subscribe-btn:hover {
+  opacity: 0.8;
+}
+
+.subscribe-btn-outline {
+  background: transparent !important;
+  color: var(--body-text-color, #141414) !important;
+  border-color: var(--card-border-color, #e0e0e0) !important;
 }
