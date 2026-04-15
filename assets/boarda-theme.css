@@ -1,10 +1,11 @@
 /* Boarda Status Page — custom theme
    Matches the IBM Carbon-inspired design tokens shared across all Boarda portals.
-   Automatically switches light ↔ dark based on the visitor's system preference.
+   Supports light / dark / system via a toggle button (see theme-toggle.js).
    ─────────────────────────────────────────────────────────────────────────────── */
 
-/* ── Light (IBM Carbon White) ─────────────────────────────────────── */
-:root {
+/* ── Light tokens ─────────────────────────────────────────────────── */
+:root,
+[data-theme="light"] {
   --body-background-color: hsl(0, 0%, 100%);
   --body-text-color: hsl(0, 0%, 8%);
   --card-background-color: hsl(0, 0%, 96%);
@@ -31,9 +32,9 @@
   --graph-filter: none;
 }
 
-/* ── Dark (IBM Carbon Gray 100) ───────────────────────────────────── */
+/* ── Dark tokens (system preference) ─────────────────────────────── */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --body-background-color: hsl(0, 0%, 8%);
     --body-text-color: hsl(0, 0%, 96%);
     --card-background-color: hsl(0, 0%, 15%);
@@ -59,4 +60,74 @@
     --graph-opacity: 0.9;
     --graph-filter: none;
   }
+}
+
+/* ── Dark tokens (explicit override) ─────────────────────────────── */
+[data-theme="dark"] {
+  --body-background-color: hsl(0, 0%, 8%);
+  --body-text-color: hsl(0, 0%, 96%);
+  --card-background-color: hsl(0, 0%, 15%);
+  --nav-background-color: hsl(0, 0%, 15%);
+  --nav-border-bottom-color: hsl(0, 0%, 32%);
+  --nav-current-border-bottom-color: hsl(216, 100%, 64%);
+  --card-border-color: hsl(0, 0%, 32%);
+  --down-border-left-color: #ff8389;
+  --down-background-color: hsl(356, 30%, 16%);
+  --degraded-border-left-color: #f1c21b;
+  --up-border-left-color: #42be65;
+  --tag-color: hsl(0, 0%, 8%);
+  --tag-up-background-color: #42be65;
+  --tag-down-background-color: #ff8389;
+  --tag-degraded-background-color: #f1c21b;
+  --change-background-color: hsl(0, 0%, 22%);
+  --error-button-border-color: hsl(216, 100%, 54%);
+  --error-button-background-color: hsl(216, 100%, 64%);
+  --error-button-color: #ffffff;
+  --submit-button-border-color: hsl(216, 100%, 54%);
+  --submit-button-background-color: hsl(216, 100%, 64%);
+  --submit-button-color: #ffffff;
+  --graph-opacity: 0.9;
+  --graph-filter: none;
+}
+
+/* ── Theme toggle button ──────────────────────────────────────────── */
+#boarda-theme-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 8px;
+  background: var(--card-background-color);
+  border: 1px solid var(--nav-border-bottom-color);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+#boarda-theme-toggle button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  color: var(--body-text-color);
+  font-size: 15px;
+  transition: background 0.15s;
+  opacity: 0.5;
+}
+
+#boarda-theme-toggle button:hover {
+  background: var(--nav-border-bottom-color);
+  opacity: 1;
+}
+
+#boarda-theme-toggle button.active {
+  background: var(--nav-border-bottom-color);
+  opacity: 1;
 }
