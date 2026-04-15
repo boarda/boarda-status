@@ -34,3 +34,6 @@ status-website:
       href: /
     - title: boarda.io
       href: https://boarda.io
+
+i18n:
+  footer: "© Boarda. All rights reserved."
