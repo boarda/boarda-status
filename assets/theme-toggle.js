@@ -1,7 +1,7 @@
 (function () {
   // Themes: system → light → dark → system → …
   var THEMES = ["system", "light", "dark"];
-  var ICONS  = { system: "💻", light: "☀️", dark: "🌙" };
+  var ICONS  = { system: "Auto", light: "Light", dark: "Dark" };
   var LABELS = { system: "System", light: "Light", dark: "Dark" };
   var KEY    = "boarda-status-theme";
 
