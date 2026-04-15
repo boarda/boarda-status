@@ -3,9 +3,6 @@ repo: boarda-status
 user-agent: boarda
 
 sites:
-  - name: Website
-    url: https://boarda.io
-    slug: website
   - name: Studio
     url: https://beta.studio.boarda.io
     slug: studio
@@ -15,9 +12,15 @@ sites:
   - name: Developers
     url: https://developers.boarda.io
     slug: developers
+  - name: Cast
+    url: https://cast.boarda.io/api/health
+    slug: cast
   - name: API Gateway
     url: https://api.boarda.io/_health
     slug: api-gateway
+  - name: Website
+    url: https://boarda.io
+    slug: website
 
 status-website:
   cname: status.boarda.io
