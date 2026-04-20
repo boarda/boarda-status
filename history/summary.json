@@ -94,19 +94,19 @@
     "url": "https://boarda.io",
     "icon": "https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg",
     "slug": "website",
-    "status": "down",
-    "uptime": "100.00%",
-    "uptimeDay": "99.99%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "100.00%",
-    "uptimeYear": "100.00%",
-    "time": 105,
-    "timeDay": 72,
-    "timeWeek": 105,
-    "timeMonth": 105,
-    "timeYear": 105,
+    "status": "up",
+    "uptime": "98.79%",
+    "uptimeDay": "93.59%",
+    "uptimeWeek": "98.79%",
+    "uptimeMonth": "98.79%",
+    "uptimeYear": "98.79%",
+    "time": 193,
+    "timeDay": 397,
+    "timeWeek": 193,
+    "timeMonth": 193,
+    "timeYear": 193,
     "dailyMinutesDown": {
-      "2026-04-20": 0
+      "2026-04-20": 92
     }
   }
 ]
