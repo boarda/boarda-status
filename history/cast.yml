@@ -1,7 +1,7 @@
 url: https://cast.boarda.io/api/health
-status: up
-code: 200
-responseTime: 440
-lastUpdated: 2026-04-29T23:54:19.226Z
+status: down
+code: 404
+responseTime: 169
+lastUpdated: 2026-04-30T11:13:37.287Z
 startTime: 2026-04-15T08:21:36.658Z
 generator: Upptime <https://github.com/upptime/upptime>
