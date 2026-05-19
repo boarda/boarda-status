@@ -4,46 +4,50 @@
     "url": "https://beta.studio.boarda.io",
     "icon": "https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg",
     "slug": "studio",
-    "status": "up",
-    "uptime": "100.00%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "100.00%",
-    "uptimeYear": "100.00%",
+    "status": "down",
+    "uptime": "99.99%",
+    "uptimeDay": "99.78%",
+    "uptimeWeek": "99.97%",
+    "uptimeMonth": "99.99%",
+    "uptimeYear": "99.99%",
     "time": 676,
     "timeDay": 855,
     "timeWeek": 628,
     "timeMonth": 663,
     "timeYear": 676,
-    "dailyMinutesDown": {}
+    "dailyMinutesDown": {
+      "2026-05-19": 3
+    }
   },
   {
     "name": "Boarda Account",
     "url": "https://account.boarda.io",
     "icon": "https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg",
     "slug": "account",
-    "status": "up",
+    "status": "down",
     "uptime": "100.00%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "100.00%",
+    "uptimeDay": "99.84%",
+    "uptimeWeek": "99.98%",
+    "uptimeMonth": "99.99%",
     "uptimeYear": "100.00%",
     "time": 656,
     "timeDay": 655,
     "timeWeek": 620,
     "timeMonth": 655,
     "timeYear": 656,
-    "dailyMinutesDown": {}
+    "dailyMinutesDown": {
+      "2026-05-19": 2
+    }
   },
   {
     "name": "Boarda Developers",
     "url": "https://developers.boarda.io",
     "icon": "https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg",
     "slug": "developers",
-    "status": "up",
+    "status": "down",
     "uptime": "100.00%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
+    "uptimeDay": "99.89%",
+    "uptimeWeek": "99.98%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
     "time": 901,
@@ -51,25 +55,28 @@
     "timeWeek": 926,
     "timeMonth": 900,
     "timeYear": 901,
-    "dailyMinutesDown": {}
+    "dailyMinutesDown": {
+      "2026-05-19": 2
+    }
   },
   {
     "name": "Boarda Cast",
     "url": "https://cast.boarda.io/api/health",
     "icon": "https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg",
     "slug": "cast",
-    "status": "up",
-    "uptime": "92.85%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
+    "status": "down",
+    "uptime": "93.03%",
+    "uptimeDay": "99.94%",
+    "uptimeWeek": "99.99%",
     "uptimeMonth": "92.07%",
-    "uptimeYear": "92.85%",
+    "uptimeYear": "93.03%",
     "time": 386,
     "timeDay": 472,
     "timeWeek": 351,
     "timeMonth": 373,
     "timeYear": 386,
     "dailyMinutesDown": {
+      "2026-05-19": 1,
       "2026-05-02": 1267,
       "2026-05-01": 1440,
       "2026-04-30": 766
@@ -80,9 +87,9 @@
     "url": "https://api.boarda.io/_health",
     "icon": "https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg",
     "slug": "api-gateway",
-    "status": "up",
+    "status": "down",
     "uptime": "100.00%",
-    "uptimeDay": "100.00%",
+    "uptimeDay": "99.99%",
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
@@ -91,7 +98,9 @@
     "timeWeek": 365,
     "timeMonth": 389,
     "timeYear": 401,
-    "dailyMinutesDown": {}
+    "dailyMinutesDown": {
+      "2026-05-19": 0
+    }
   },
   {
     "name": "Boarda Website",
