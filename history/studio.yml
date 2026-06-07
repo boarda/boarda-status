@@ -1,7 +1,7 @@
 url: https://beta.studio.boarda.io
-status: up
-code: 200
-responseTime: 2278
-lastUpdated: 2026-06-07T00:03:00.454Z
+status: down
+code: 502
+responseTime: 15526
+lastUpdated: 2026-06-07T16:04:31.559Z
 startTime: 2026-04-15T08:08:07.929Z
 generator: Upptime <https://github.com/upptime/upptime>
