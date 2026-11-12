@@ -21,6 +21,9 @@ trap 'git -C "$ROOT" worktree remove --force "$TMP"' EXIT
 find "$TMP" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
 cp -R page/. "$TMP"/
 touch "$TMP/.nojekyll"
+# GitHub Pages lets browsers cache files for 10 minutes; a version stamp makes each release load at once.
+sed -i.bak -e "s|/status.css\"|/status.css?v=$SRC_REV\"|" -e "s|/status.js\"|/status.js?v=$SRC_REV\"|" "$TMP/index.html"
+rm -f "$TMP/index.html.bak"
 
 cd "$TMP"
 git add -A
