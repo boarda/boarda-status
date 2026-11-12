@@ -17,10 +17,71 @@
   var REFRESH_MS = 5 * 60 * 1000;
   var HISTORY_LIMIT = 10;
   var THEME_KEY = "boarda-status-theme";
-  var GROUPS = [
-    { name: "Apps", slugs: ["website", "account", "studio", "developers", "cast"] },
-    { name: "Platform", slugs: ["api-gateway"] }
+
+  // What the page lists. Each row is a product or a variant of one, backed by one or more
+  // Upptime checks (slugs in .upptimerc.yml). Native apps have no address to check: they run
+  // on the Boarda API, so they show the API's check and say so.
+  var NATIVE = "Runs on the Boarda API";
+  var CATALOG = [
+    { group: "Apps", items: [
+      { name: "Boarda Browser - Web", checks: ["browser-web"], sub: "app.boarda.io" },
+      { name: "Boarda Browser - iOS", checks: ["api-gateway"], sub: NATIVE },
+      { name: "Boarda Browser - Android", checks: ["api-gateway"], sub: NATIVE }
+    ] },
+    { group: "Studio and business tools", items: [
+      { name: "Boarda Studio", checks: ["studio"], sub: "console.boarda.io" },
+      { name: "Boarda Business", checks: ["studio"], sub: "console.boarda.io/business" },
+      { name: "Boarda Creators", checks: ["studio"], sub: "console.boarda.io/creators" },
+      { name: "Boarda Workspace - Web", checks: ["studio"], sub: "console.boarda.io/workspace" },
+      { name: "Boarda Workspace - Android", checks: ["api-gateway"], sub: NATIVE },
+      { name: "Boarda Ads", checks: ["ads"], sub: "ads.boarda.io" },
+      { name: "Boarda Cast", checks: ["cast"], sub: "cast.boarda.io" },
+      { name: "Boarda Pages", checks: ["pages"], sub: "pages.boarda.io" }
+    ] },
+    { group: "Public pages and help", items: [
+      { name: "Boarda Space pages", checks: ["spaces"], sub: "spaces.boarda.io" },
+      { name: "Boarda Community", checks: ["community"], sub: "community.boarda.io" },
+      { name: "Boarda Help Center", checks: ["help"], sub: "help.boarda.io" },
+      { name: "Boarda Support", checks: ["support"], sub: "support.boarda.io" },
+      { name: "Boarda website", checks: ["website"], sub: "boarda.io" }
+    ] },
+    { group: "Platform", items: [
+      { name: "Boarda API", checks: ["api-gateway"], sub: "api.boarda.io" },
+      { name: "Boarda Account and sign-in", checks: ["account"], sub: "account.boarda.io" },
+      // Boarda short links (boarda.to, check "short-links") is added once the gateway serves
+      // boarda.to/_health in production (BRDSPRINT-470); until then that path is read as a link.
+      { name: "Boarda MCP", checks: ["mcp"], sub: "mcp.boarda.io" },
+      { name: "Boarda Developers", checks: ["developers"], sub: "developers.boarda.io" }
+    ] }
   ];
+
+  // How an incident on a check is named in the incident lists.
+  var CHECK_LABEL = {
+    "browser-web": "Boarda Browser - Web",
+    "api-gateway": "Boarda API",
+    studio: "Boarda Studio (with Business, Creators and Workspace)",
+    ads: "Boarda Ads",
+    cast: "Boarda Cast",
+    pages: "Boarda Pages",
+    spaces: "Boarda Space pages",
+    community: "Boarda Community",
+    help: "Boarda Help Center",
+    support: "Boarda Support",
+    website: "Boarda website",
+    account: "Boarda Account and sign-in",
+    "short-links": "Boarda short links",
+    mcp: "Boarda MCP",
+    developers: "Boarda Developers"
+  };
+
+  var CHECKS = [];
+  CATALOG.forEach(function (g) {
+    g.items.forEach(function (it) {
+      it.id = it.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      it.checks.forEach(function (c) { if (CHECKS.indexOf(c) === -1) CHECKS.push(c); });
+    });
+  });
+  var RANK = { none: 0, ok: 1, maint: 2, minor: 3, major: 4 };
 
   var STATE_LABEL = {
     ok: "Operational",
@@ -204,31 +265,31 @@
 
   function load() {
     var started = Date.now();
-    var summaryP = getJSON(RAW + "/history/summary.json");
-    var issuesP = getJSON(API + "/issues?state=all&per_page=100&sort=created&direction=desc");
-    var runP = getJSON(API + "/actions/workflows/uptime.yml/runs?per_page=1&status=completed");
-
-    return summaryP.then(function (summary) {
-      var ymlPs = summary.map(function (s) {
-        return getText(RAW + "/history/" + encodeURIComponent(s.slug) + ".yml").then(parseYml, function () { return null; });
-      });
-      return Promise.all([
-        Promise.all(ymlPs),
-        issuesP.then(function (x) { return x; }, function () { return null; }),
-        runP.then(function (x) { return x; }, function () { return null; })
-      ]).then(function (r) {
-        lastLoad = started;
-        render(build(summary, r[0], r[1], r[2]));
-      });
+    var soft = function (p) { return p.then(function (x) { return x; }, function () { return null; }); };
+    return Promise.all([
+      soft(getJSON(RAW + "/history/summary.json")),
+      Promise.all(CHECKS.map(function (slug) {
+        return soft(getText(RAW + "/history/" + encodeURIComponent(slug) + ".yml").then(parseYml));
+      })),
+      soft(getJSON(API + "/issues?state=all&per_page=100&sort=created&direction=desc")),
+      soft(getJSON(API + "/actions/workflows/uptime.yml/runs?per_page=1&status=completed"))
+    ]).then(function (r) {
+      lastLoad = started;
+      var summary = r[0] || [], ymls = r[1];
+      if (!summary.length && !ymls.some(Boolean)) throw new Error("no status data");
+      render(build(summary, ymls, r[2], r[3]));
     }).catch(function () {
       lastLoad = started;
       renderError();
     });
   }
 
-  function build(summary, ymls, issues, runs) {
+  function build(summaryList, ymls, issues, runs) {
     var now = Date.now();
-    var slugs = summary.map(function (s) { return s.slug; });
+    var slugs = CHECKS;
+    var bySlug = {};
+    summaryList.forEach(function (s) { bySlug[s.slug] = s; });
+    var summary = CHECKS.map(function (slug) { return bySlug[slug] || { slug: slug, name: CHECK_LABEL[slug] || slug }; });
     var all = (issues || []).filter(function (i) { return !i.pull_request; });
     var incidents = all.filter(function (i) { return labelsOf(i).indexOf("status") !== -1; });
     var maint = all.filter(function (i) { return i.state === "open" && labelsOf(i).indexOf("maintenance") !== -1; })
@@ -260,7 +321,9 @@
       });
 
       var startedAt = Date.parse(yml.startTime || "");
-      var firstDay = isNaN(startedAt) ? null : utcDayStart(startedAt);
+      var noData = !ymls[idx] && !bySlug[s.slug];
+      // A check that has never run has no days of data; one without a start time counts them all.
+      var firstDay = noData ? todayStart + DAY_MS : isNaN(startedAt) ? null : utcDayStart(startedAt);
       var dmd = s.dailyMinutesDown || {};
       var days = [], downTotal = 0, minutesTotal = 0, badDays = 0;
       for (var i = DAYS - 1; i >= 0; i--) {
@@ -277,8 +340,7 @@
       var inMaint = maint.some(function (m) {
         return m.win.slugs.indexOf(s.slug) !== -1 && m.win.start && m.win.start <= now;
       });
-      var state = "ok";
-      if (!ymls[idx] && !s.status) state = "none";
+      var state = noData ? "none" : "ok";
       if (yml.status === "degraded" || s.status === "degraded") state = "minor";
       if (open.some(function (x) { return x._kind !== "down"; })) state = "minor";
       if (yml.status === "down" || open.some(function (x) { return x._kind === "down"; })) state = "major";
@@ -300,8 +362,39 @@
     var lastRun = runs && runs.workflow_runs && runs.workflow_runs[0] ? Date.parse(runs.workflow_runs[0].updated_at) : null;
     var lastYml = Math.max.apply(null, services.map(function (s) { return s.lastUpdated || 0; }));
 
+    // Rows: each catalogue item takes the worst of its checks, day by day.
+    var checkBy = {};
+    services.forEach(function (s) { checkBy[s.slug] = s; });
+    var rows = [];
+    CATALOG.forEach(function (g) {
+      g.items.forEach(function (it) {
+        var cs = it.checks.map(function (c) { return checkBy[c]; }).filter(Boolean);
+        var state = "none";
+        cs.forEach(function (c) { if (RANK[c.state] > RANK[state]) state = c.state; });
+        var days = [], badDays = 0;
+        for (var d = 0; d < DAYS; d++) {
+          var pick = null;
+          cs.forEach(function (c) {
+            var x = c.days[d];
+            if (!pick || (x.state !== "none" && (pick.state === "none" || x.down > pick.down))) pick = x;
+          });
+          days.push(pick);
+          if (pick && pick.down > 0) badDays++;
+        }
+        var ups = cs.map(function (c) { return c.uptime; }).filter(function (u) { return u != null; });
+        var incs = [];
+        cs.forEach(function (c) { c.incidents.forEach(function (i) { if (incs.indexOf(i) === -1) incs.push(i); }); });
+        rows.push({
+          id: it.id, name: it.name, sub: it.sub, group: g.group, native: it.sub === NATIVE,
+          state: state, days: days, badDays: badDays, incidents: incs,
+          uptime: ups.length ? Math.min.apply(null, ups) : null
+        });
+      });
+    });
+
     return {
       now: now,
+      rows: rows,
       services: services,
       incidents: incidents,
       maint: maint,
@@ -330,9 +423,12 @@
     m.textContent = meta || "";
   }
 
-  function incidentTitle(i, svcByslug, ongoing) {
-    var svc = i._slugs.map(function (s) { return svcByslug[s] ? svcByslug[s].name : s; });
-    var who = svc.length ? names(svc) : "A service";
+  function checkNames(slugs) {
+    return slugs.length ? names(slugs.map(function (s) { return CHECK_LABEL[s] || s; })) : "A service";
+  }
+
+  function incidentTitle(i, _unused, ongoing) {
+    var who = checkNames(i._slugs);
     if (i._kind === "down") return who + (ongoing ? " is not responding" : " was not responding");
     if (i._kind === "degraded") return who + (ongoing ? " is responding slowly" : " was responding slowly");
     return cleanTitle(i.title) || who + " incident";
@@ -340,22 +436,23 @@
 
   function render(data) {
     current = data;
-    var svcBySlug = {};
-    data.services.forEach(function (s) { svcBySlug[s.slug] = s; });
 
-    // Banner
-    var major = data.services.filter(function (s) { return s.state === "major"; });
-    var minor = data.services.filter(function (s) { return s.state === "minor"; });
+    // Banner: counted by what customers see, the rows.
+    var major = data.rows.filter(function (s) { return s.state === "major"; });
+    var minor = data.rows.filter(function (s) { return s.state === "minor"; });
     var maintNow = data.maint.some(function (m) { return m.win.start && m.win.start <= data.now; });
     var meta = data.lastChecked
       ? "Last checked " + fmtAgo(data.lastChecked) + ". This page updates on its own."
       : "This page updates on its own.";
-    if (major.length && major.length === data.services.length) {
+    var who = function (list) {
+      return list.length > 3 ? list.length + " services are" : names(list.map(function (s) { return s.name; })) + (list.length === 1 ? " is" : " are");
+    };
+    if (major.length && major.length === data.rows.length) {
       setBanner("major", "Major outage across Boarda", meta);
     } else if (major.length) {
-      setBanner("major", names(major.map(function (s) { return s.name; })) + (major.length === 1 ? " is" : " are") + " having an outage", meta);
+      setBanner("major", who(major) + " having an outage", meta);
     } else if (minor.length) {
-      setBanner("minor", names(minor.map(function (s) { return s.name; })) + (minor.length === 1 ? " is" : " are") + " having issues", meta);
+      setBanner("minor", who(minor) + " having issues", meta);
     } else if (maintNow) {
       setBanner("maint", "Scheduled maintenance in progress", meta);
     } else {
@@ -363,22 +460,24 @@
     }
     if (data.lastChecked) document.getElementById("banner-meta").title = fmtDateTime(data.lastChecked);
 
-    renderActive(data, svcBySlug);
+    renderActive(data);
     renderServices(data);
-    renderHistory(data, svcBySlug);
+    renderHistory(data);
     focusHash();
   }
 
-  function renderActive(data, svcBySlug) {
+  function renderActive(data) {
     var box = document.getElementById("active");
     box.textContent = "";
     var open = data.incidents.filter(function (i) { return i.state === "open"; });
 
     open.forEach(function (i) {
       var n = el("article", "notice" + (i._kind === "down" ? "" : " minor"));
-      n.appendChild(el("p", "notice-kicker", i._kind === "down" ? "Ongoing incident" : i._kind === "degraded" ? "Degraded performance" : "Ongoing incident"));
-      n.appendChild(el("h3", null, incidentTitle(i, svcBySlug, true)));
+      n.appendChild(el("p", "notice-kicker", i._kind === "degraded" ? "Degraded performance" : "Ongoing incident"));
+      n.appendChild(el("h3", null, incidentTitle(i, null, true)));
       n.appendChild(el("p", "muted", "Started " + fmtDateTime(i._start) + " (" + fmtAgo(i._start) + ")."));
+      var affected = data.rows.filter(function (r) { return r.incidents.indexOf(i) !== -1; });
+      if (affected.length > 1) n.appendChild(el("p", "muted", "Affects " + names(affected.map(function (r) { return r.name; })) + "."));
       if (i._kind) {
         n.appendChild(el("p", null, "Our monitoring detected this automatically. This page marks it resolved once our checks see the service recover."));
       } else {
@@ -408,43 +507,88 @@
     box.hidden = !box.children.length;
   }
 
+  // One group: the worst of its rows, day by day.
+  function groupSummary(name, rows) {
+    var state = "none", days = [], badDays = 0, incs = [];
+    rows.forEach(function (r) {
+      if (RANK[r.state] > RANK[state]) state = r.state;
+      r.incidents.forEach(function (i) { if (incs.indexOf(i) === -1) incs.push(i); });
+    });
+    for (var d = 0; d < DAYS; d++) {
+      var pick = null;
+      rows.forEach(function (r) {
+        var x = r.days[d];
+        if (!pick || (x.state !== "none" && (pick.state === "none" || x.down > pick.down))) pick = x;
+      });
+      days.push(pick);
+      if (pick.down > 0) badDays++;
+    }
+    var ups = rows.map(function (r) { return r.uptime; }).filter(function (u) { return u != null; });
+    return {
+      id: "group-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+      name: name, sub: rows.length + (rows.length === 1 ? " service" : " services"),
+      state: state, days: days, badDays: badDays, incidents: incs,
+      uptime: ups.length ? Math.min.apply(null, ups) : null
+    };
+  }
+
   function renderServices(data) {
     var box = document.getElementById("services");
     var frag = document.createDocumentFragment();
-    var placed = {};
-    var groups = GROUPS.map(function (g) {
-      return { name: g.name, items: g.slugs.map(function (s) { placed[s] = true; return data.services.filter(function (x) { return x.slug === s; })[0]; }).filter(Boolean) };
-    });
-    var rest = data.services.filter(function (s) { return !placed[s.slug]; });
-    if (rest.length) groups.push({ name: "Other services", items: rest });
+    var lookup = {};
+    var wasOpen = {};
+    each(box.querySelectorAll("details.grp"), function (d) { wasOpen[d.getAttribute("data-group")] = d.open; });
 
-    groups.forEach(function (g) {
-      if (!g.items.length) return;
-      frag.appendChild(el("div", "group-head", g.name));
-      g.items.forEach(function (s) { frag.appendChild(serviceRow(s)); });
+    CATALOG.forEach(function (g) {
+      var rows = data.rows.filter(function (r) { return r.group === g.group; });
+      if (!rows.length) return;
+      var sum = groupSummary(g.group, rows);
+      lookup[sum.id] = sum;
+
+      var det = el("details", "grp");
+      det.setAttribute("data-group", g.group);
+      det.open = g.group in wasOpen ? wasOpen[g.group] : (sum.state !== "ok" && sum.state !== "none");
+      var summary = el("summary", "svc grp-sum");
+      fillRow(summary, sum, true);
+      det.appendChild(summary);
+
+      var items = el("div", "grp-items");
+      rows.forEach(function (r) {
+        lookup[r.id] = r;
+        var row = el("div", "svc");
+        row.id = r.id;
+        fillRow(row, r, false);
+        items.appendChild(row);
+      });
+      det.appendChild(items);
+      frag.appendChild(det);
     });
 
+    data.lookup = lookup;
     box.textContent = "";
     box.appendChild(frag);
   }
 
-  function serviceRow(s) {
-    var row = el("div", "svc");
-    row.id = s.slug;
-
+  function fillRow(row, s, isGroup) {
     var top = el("div", "svc-row");
-    var left = el("div");
+    var left = el("div", "svc-left");
+    if (isGroup) {
+      var chev = el("span", "chev");
+      chev.setAttribute("aria-hidden", "true");
+      chev.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
+      left.appendChild(chev);
+    }
     left.appendChild(el("span", "svc-name", s.name));
-    if (s.host) left.appendChild(el("span", "svc-host", s.host));
+    if (s.sub) left.appendChild(el("span", isGroup || s.native ? "svc-note" : "svc-host", s.sub));
     top.appendChild(left);
     top.appendChild(el("span", "svc-state " + s.state, STATE_LABEL[s.state]));
     row.appendChild(top);
 
     var bars = el("div", "bars");
-    bars.setAttribute("data-slug", s.slug);
+    bars.setAttribute("data-key", s.id);
     bars.setAttribute("role", "img");
-    bars.setAttribute("aria-label", s.name + ": " + (s.uptime == null ? "no data" : fmtPct(s.uptime) + " uptime over 90 days") +
-      (s.badDays ? ", downtime on " + s.badDays + (s.badDays === 1 ? " day" : " days") : ", no downtime"));
+    bars.setAttribute("aria-label", s.name + ": " + (s.uptime == null ? "no data yet" : fmtPct(s.uptime) + " uptime over 90 days") +
+      (s.uptime == null ? "" : s.badDays ? ", downtime on " + s.badDays + (s.badDays === 1 ? " day" : " days") : ", no downtime"));
     s.days.forEach(function (d, idx) {
       var b = el("span", "bar " + d.state);
       b.setAttribute("data-i", String(idx));
@@ -457,14 +601,13 @@
     ago.innerHTML = '<span class="range-90">90 days ago</span><span class="range-60">60 days ago</span><span class="range-30">30 days ago</span>';
     axis.appendChild(ago);
     axis.appendChild(el("span", "line"));
-    axis.appendChild(el("span", "pct", s.uptime == null ? "No data" : fmtPct(s.uptime) + " uptime"));
+    axis.appendChild(el("span", "pct", s.uptime == null ? "Checks just started" : fmtPct(s.uptime) + " uptime"));
     axis.appendChild(el("span", "line"));
     axis.appendChild(el("span", null, "Today"));
     row.appendChild(axis);
-    return row;
   }
 
-  function renderHistory(data, svcBySlug) {
+  function renderHistory(data) {
     var box = document.getElementById("history");
     box.textContent = "";
 
@@ -498,7 +641,7 @@
       var item = el("article", "inc");
       if (idx >= HISTORY_LIMIT) item.setAttribute("data-older", "");
       var top = el("div", "inc-top");
-      top.appendChild(el("span", "inc-title", incidentTitle(i, svcBySlug, false)));
+      top.appendChild(el("span", "inc-title", incidentTitle(i, null, false)));
       top.appendChild(el("span", "chip", "Resolved"));
       item.appendChild(top);
       var end = i._end || i._start;
@@ -542,12 +685,24 @@
     if (h.textContent.indexOf("Loading") === 0) h.textContent = "";
   }
 
+  // Old Upptime links (/history/<check>) arrive as #<check>; send them to the first row on that check.
+  var HASH_ALIAS = {};
+  CATALOG.forEach(function (g) {
+    g.items.forEach(function (it) {
+      it.checks.forEach(function (c) { if (!HASH_ALIAS[c]) HASH_ALIAS[c] = it.id; });
+    });
+  });
+  HASH_ALIAS.studio = "boarda-studio";
+
   function focusHash() {
     var slug = decodeURIComponent(location.hash.slice(1));
+    slug = HASH_ALIAS[slug] || slug;
     if (!slug || focusHash.done === slug) return;
     var row = document.getElementById(slug);
     if (!row || !row.classList.contains("svc")) return;
     focusHash.done = slug;
+    var det = row.closest("details");
+    if (det) det.open = true;
     row.scrollIntoView({ block: "center" });
     row.classList.add("flash");
   }
@@ -560,8 +715,7 @@
 
   function showTip(bar) {
     if (!current) return;
-    var slug = bar.parentNode.getAttribute("data-slug");
-    var svc = current.services.filter(function (s) { return s.slug === slug; })[0];
+    var svc = current.lookup && current.lookup[bar.parentNode.getAttribute("data-key")];
     if (!svc) return;
     var d = svc.days[Number(bar.getAttribute("data-i"))];
     if (!d) return;
@@ -582,9 +736,7 @@
     if (hits.length) {
       var ul = el("ul");
       hits.slice(0, 3).forEach(function (i) {
-        var byslug = {};
-        current.services.forEach(function (s) { byslug[s.slug] = s; });
-        ul.appendChild(el("li", null, incidentTitle(i, byslug, i.state === "open")));
+        ul.appendChild(el("li", null, incidentTitle(i, null, i.state === "open")));
       });
       tip.appendChild(ul);
     }
@@ -611,6 +763,9 @@
   });
   servicesBox.addEventListener("pointerdown", function (e) {
     if (e.target.classList && e.target.classList.contains("bar")) showTip(e.target);
+  });
+  servicesBox.addEventListener("click", function (e) {
+    if (e.target.classList && e.target.classList.contains("bar") && e.target.closest("summary")) e.preventDefault();
   });
   servicesBox.addEventListener("pointerleave", function (e) {
     if (e.pointerType === "mouse") hideTip();

@@ -209,6 +209,25 @@ main.wrap { padding-top: 32px; padding-bottom: 48px; }
 .svc-state.maint { color: var(--maint); }
 .svc-state.none { color: var(--muted); }
 
+.svc-left { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 8px; min-width: 0; }
+.svc-left .svc-host { margin-left: 0; }
+.svc-note { font-size: 13px; color: var(--muted); }
+
+/* Groups: a summary row with the group's combined bars, expanding to its products. */
+details.grp { border-bottom: 1px solid var(--border); }
+details.grp:last-child { border-bottom: 0; }
+details.grp > summary { list-style: none; cursor: pointer; border-bottom: 0; }
+details.grp > summary::-webkit-details-marker { display: none; }
+details.grp > summary:hover { background: color-mix(in srgb, var(--surface-2) 60%, transparent); }
+details.grp > summary .svc-name { font-weight: 600; }
+.chev { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 2px; color: var(--muted); align-self: center; }
+.chev svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform 150ms; }
+details.grp[open] > summary .chev svg { transform: rotate(90deg); }
+.grp-items { background: var(--surface-2); border-top: 1px solid var(--border); }
+.grp-items .svc { padding-left: 46px; border-bottom: 1px solid var(--border); }
+.grp-items .svc:last-child { border-bottom: 0; }
+.grp-items .bars { height: 26px; }
+
 .bars { display: flex; gap: 2px; height: 34px; margin-top: 12px; }
 .bar { flex: 1 1 0; min-width: 0; border-radius: 2px; background: var(--ok); transition: opacity 120ms, transform 120ms; }
 .bar.minor { background: var(--minor); }
@@ -280,6 +299,7 @@ main.wrap { padding-top: 32px; padding-bottom: 48px; }
   .banner h1 { font-size: 19px; }
   .banner-icon { width: 34px; height: 34px; }
   .card-head, .svc, .group-head, .legend { padding-left: 16px; padding-right: 16px; }
+  .grp-items .svc { padding-left: 24px; }
   .brand-sub { font-size: 15px; } .brand-name { font-size: 16px; }
   .top-link { display: none; }
 }
