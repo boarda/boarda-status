@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Boarda Status</title>
+  <subtitle>Incidents and scheduled maintenance for Boarda products</subtitle>
+  <id>https://status.boarda.io/</id>
+  <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+  <link rel="self" type="application/atom+xml" href="https://status.boarda.io/feed.xml"/>
+  <icon>https://status.boarda.io/icons/boarda-favicon-blue-96.png</icon>
+  <updated>2026-10-27T22:24:18.000Z</updated>
+  <author><name>Boarda</name><uri>https://boarda.io</uri></author>
+  <entry>
+    <id>https://status.boarda.io/incidents/12/resolved</id>
+    <title>Resolved: Boarda Cast was not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-10-27T22:24:18.000Z</published>
+    <updated>2026-10-27T22:24:18.000Z</updated>
+    <content type="text">From Sat, 24 Oct 2026 00:33:22 UTC to Tue, 27 Oct 2026 22:24:18 UTC, lasting 3 days 21 h. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/12/started</id>
+    <title>Investigating: Boarda Cast is not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-10-24T00:33:22.000Z</published>
+    <updated>2026-10-24T00:33:22.000Z</updated>
+    <content type="text">Our monitoring detected this at Sat, 24 Oct 2026 00:33:22 UTC. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/11/resolved</id>
+    <title>Resolved: Boarda Studio was not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-08-05T11:35:49.000Z</published>
+    <updated>2026-08-05T11:35:49.000Z</updated>
+    <content type="text">From Tue, 04 Aug 2026 23:43:24 UTC to Wed, 05 Aug 2026 11:35:49 UTC, lasting 11 h 52 min. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/11/started</id>
+    <title>Investigating: Boarda Studio is not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-08-04T23:43:24.000Z</published>
+    <updated>2026-08-04T23:43:24.000Z</updated>
+    <content type="text">Our monitoring detected this at Tue, 04 Aug 2026 23:43:24 UTC. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/6/resolved</id>
+    <title>Resolved: Boarda Developers was not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-06-09T11:29:07.000Z</published>
+    <updated>2026-06-09T11:29:07.000Z</updated>
+    <content type="text">From Tue, 19 May 2026 22:24:48 UTC to Tue, 09 Jun 2026 11:29:07 UTC, lasting 20 days 13 h. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/10/resolved</id>
+    <title>Resolved: Boarda Studio was not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-06-07T17:36:37.000Z</published>
+    <updated>2026-06-07T17:36:37.000Z</updated>
+    <content type="text">From Sun, 07 Jun 2026 16:04:32 UTC to Sun, 07 Jun 2026 17:36:37 UTC, lasting 1 h 32 min. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/10/started</id>
+    <title>Investigating: Boarda Studio is not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-06-07T16:04:32.000Z</published>
+    <updated>2026-06-07T16:04:32.000Z</updated>
+    <content type="text">Our monitoring detected this at Sun, 07 Jun 2026 16:04:32 UTC. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/8/resolved</id>
+    <title>Resolved: Boarda API Gateway was not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-05-20T05:48:52.000Z</published>
+    <updated>2026-05-20T05:48:52.000Z</updated>
+    <content type="text">From Tue, 19 May 2026 22:26:20 UTC to Wed, 20 May 2026 05:48:52 UTC, lasting 7 h 23 min. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/5/resolved</id>
+    <title>Resolved: Boarda Account was not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-05-20T05:46:55.000Z</published>
+    <updated>2026-05-20T05:46:55.000Z</updated>
+    <content type="text">From Tue, 19 May 2026 22:24:02 UTC to Wed, 20 May 2026 05:46:55 UTC, lasting 7 h 23 min. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/4/resolved</id>
+    <title>Resolved: Boarda Studio was not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-05-20T05:46:52.000Z</published>
+    <updated>2026-05-20T05:46:52.000Z</updated>
+    <content type="text">From Tue, 19 May 2026 22:23:16 UTC to Wed, 20 May 2026 05:46:52 UTC, lasting 7 h 24 min. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/9/resolved</id>
+    <title>Resolved: Boarda Website was not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-05-20T01:36:43.000Z</published>
+    <updated>2026-05-20T01:36:43.000Z</updated>
+    <content type="text">From Tue, 19 May 2026 23:40:11 UTC to Wed, 20 May 2026 01:36:43 UTC, lasting 1 h 57 min. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/9/started</id>
+    <title>Investigating: Boarda Website is not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-05-19T23:40:11.000Z</published>
+    <updated>2026-05-19T23:40:11.000Z</updated>
+    <content type="text">Our monitoring detected this at Tue, 19 May 2026 23:40:11 UTC. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/8/started</id>
+    <title>Investigating: Boarda API Gateway is not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-05-19T22:26:20.000Z</published>
+    <updated>2026-05-19T22:26:20.000Z</updated>
+    <content type="text">Our monitoring detected this at Tue, 19 May 2026 22:26:20 UTC. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/6/started</id>
+    <title>Investigating: Boarda Developers is not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-05-19T22:24:48.000Z</published>
+    <updated>2026-05-19T22:24:48.000Z</updated>
+    <content type="text">Our monitoring detected this at Tue, 19 May 2026 22:24:48 UTC. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/5/started</id>
+    <title>Investigating: Boarda Account is not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-05-19T22:24:02.000Z</published>
+    <updated>2026-05-19T22:24:02.000Z</updated>
+    <content type="text">Our monitoring detected this at Tue, 19 May 2026 22:24:02 UTC. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/4/started</id>
+    <title>Investigating: Boarda Studio is not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-05-19T22:23:16.000Z</published>
+    <updated>2026-05-19T22:23:16.000Z</updated>
+    <content type="text">Our monitoring detected this at Tue, 19 May 2026 22:23:16 UTC. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/3/resolved</id>
+    <title>Resolved: Boarda Cast was not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-05-02T21:06:31.000Z</published>
+    <updated>2026-05-02T21:06:31.000Z</updated>
+    <content type="text">From Thu, 30 Apr 2026 11:13:37 UTC to Sat, 02 May 2026 21:06:31 UTC, lasting 2 days 9 h. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/3/started</id>
+    <title>Investigating: Boarda Cast is not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-04-30T11:13:37.000Z</published>
+    <updated>2026-04-30T11:13:37.000Z</updated>
+    <content type="text">Our monitoring detected this at Thu, 30 Apr 2026 11:13:37 UTC. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/2/resolved</id>
+    <title>Resolved: Boarda Website was not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-04-20T15:42:47.000Z</published>
+    <updated>2026-04-20T15:42:47.000Z</updated>
+    <content type="text">From Mon, 20 Apr 2026 14:10:31 UTC to Mon, 20 Apr 2026 15:42:47 UTC, lasting 1 h 32 min. Status page: https://status.boarda.io</content>
+  </entry>
+  <entry>
+    <id>https://status.boarda.io/incidents/2/started</id>
+    <title>Investigating: Boarda Website is not responding</title>
+    <link rel="alternate" type="text/html" href="https://status.boarda.io/"/>
+    <published>2026-04-20T14:10:31.000Z</published>
+    <updated>2026-04-20T14:10:31.000Z</updated>
+    <content type="text">Our monitoring detected this at Mon, 20 Apr 2026 14:10:31 UTC. Status page: https://status.boarda.io</content>
+  </entry>
+</feed>
