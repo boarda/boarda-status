@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boarda Status</title>
+  <meta name="description" content="Live status, uptime and incident history for Boarda apps and the Boarda API.">
+  <meta property="og:title" content="Boarda Status">
+  <meta property="og:description" content="Live status, uptime and incident history for Boarda apps and the Boarda API.">
+  <meta property="og:url" content="https://status.boarda.io/">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+  <link rel="preconnect" href="https://api.github.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    // Apply the saved theme before first paint so the page never flashes the wrong colours.
+    try {
+      var t = localStorage.getItem("boarda-status-theme");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="/status.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="/" aria-label="Boarda Status home">
+        <img src="/icon.svg" alt="" width="24" height="24">
+        <span class="brand-name">Boarda</span>
+        <span class="brand-sub">Status</span>
+      </a>
+      <div class="top-actions">
+        <div class="theme" role="group" aria-label="Colour theme">
+          <button type="button" data-theme-choice="system" aria-label="Use system theme" title="System">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </button>
+          <button type="button" data-theme-choice="light" aria-label="Use light theme" title="Light">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          </button>
+          <button type="button" data-theme-choice="dark" aria-label="Use dark theme" title="Dark">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          </button>
+        </div>
+        <a class="top-link" href="https://boarda.io">boarda.io</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section id="banner" class="banner" data-state="loading" aria-live="polite">
+      <span class="banner-icon" aria-hidden="true"></span>
+      <div class="banner-text">
+        <h1 id="banner-title">Checking status</h1>
+        <p id="banner-meta" class="muted">Loading the latest checks</p>
+      </div>
+    </section>
+
+    <section id="active" class="active" aria-label="Ongoing incidents and maintenance" hidden></section>
+
+    <section class="card" aria-labelledby="services-title">
+      <div class="card-head">
+        <h2 id="services-title">Services</h2>
+        <p class="card-head-note muted"><span class="range-90">Uptime over the last 90 days</span><span class="range-60">Uptime over the last 60 days</span><span class="range-30">Uptime over the last 30 days</span></p>
+      </div>
+      <div id="services" class="services">
+        <div class="svc skeleton" aria-hidden="true"><div class="svc-row"><span class="sk sk-name"></span><span class="sk sk-state"></span></div><div class="bars sk-bars"></div></div>
+        <div class="svc skeleton" aria-hidden="true"><div class="svc-row"><span class="sk sk-name"></span><span class="sk sk-state"></span></div><div class="bars sk-bars"></div></div>
+        <div class="svc skeleton" aria-hidden="true"><div class="svc-row"><span class="sk sk-name"></span><span class="sk sk-state"></span></div><div class="bars sk-bars"></div></div>
+      </div>
+      <ul class="legend muted" aria-label="Legend">
+        <li><span class="dot ok"></span>No downtime</li>
+        <li><span class="dot minor"></span>Under 1 hour down</li>
+        <li><span class="dot major"></span>1 hour or more down</li>
+        <li><span class="dot none"></span>No data</li>
+      </ul>
+    </section>
+
+    <section class="history" aria-labelledby="history-title">
+      <h2 id="history-title">Past incidents</h2>
+      <div id="history"><p class="muted">Loading incident history</p></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-inner">
+      <p class="muted">Something not working for you? <a href="https://support.boarda.io">Contact support</a></p>
+      <p class="muted small">&copy; <span id="year">2026</span> Boarda e.U. Monitored with <a href="https://upptime.js.org">Upptime</a>.</p>
+    </div>
+  </footer>
+
+  <div id="tip" class="tip" role="tooltip" hidden></div>
+
+  <noscript><p class="wrap muted">This page needs JavaScript to load live status.</p></noscript>
+  <script src="/status.js" defer></script>
+</body>
+</html>
