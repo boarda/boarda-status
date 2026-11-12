@@ -1,0 +1,43 @@
+# Rebuilds status.boarda.io/feed.xml (BRDSPRINT-472) whenever an incident or maintenance issue
+# changes, and every 6 hours as a fallback. Not an Upptime workflow: Upptime's template update
+# only replaces its own files, so this one stays.
+name: Status feed
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled, deleted]
+  issue_comment:
+    types: [created]
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: status-feed
+  cancel-in-progress: false
+jobs:
+  feed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Build feed
+        run: node scripts/build-feed.mjs > "$RUNNER_TEMP/feed.xml"
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Publish to gh-pages
+        run: |
+          git fetch --depth 1 origin gh-pages
+          git worktree add "$RUNNER_TEMP/site" origin/gh-pages --detach
+          cp "$RUNNER_TEMP/feed.xml" "$RUNNER_TEMP/site/feed.xml"
+          cd "$RUNNER_TEMP/site"
+          git add feed.xml
+          if git diff --cached --quiet; then echo "Feed unchanged"; exit 0; fi
+          git -c user.name="Boarda Status" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "Update status feed [skip ci]"
+          git push origin HEAD:gh-pages

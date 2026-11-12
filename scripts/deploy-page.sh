@@ -18,8 +18,15 @@ git fetch -q origin gh-pages
 git worktree add -q --detach "$TMP" origin/gh-pages
 trap 'git -C "$ROOT" worktree remove --force "$TMP"' EXIT
 
-find "$TMP" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+# feed.xml is kept: the Status feed workflow owns it. It is also rebuilt here when gh is signed in.
+find "$TMP" -mindepth 1 -maxdepth 1 ! -name .git ! -name feed.xml -exec rm -rf {} +
 cp -R page/. "$TMP"/
+if GH_TOKEN="$(gh auth token 2>/dev/null)" node scripts/build-feed.mjs > "$TMP/feed.xml.new" 2>/dev/null; then
+  mv "$TMP/feed.xml.new" "$TMP/feed.xml"
+else
+  rm -f "$TMP/feed.xml.new"
+  echo "Feed not rebuilt (kept the published one)"
+fi
 touch "$TMP/.nojekyll"
 # GitHub Pages lets browsers cache files for 10 minutes; a version stamp makes each release load at once.
 sed -i.bak -e "s|/status.css\"|/status.css?v=$SRC_REV\"|" -e "s|/status.js\"|/status.js?v=$SRC_REV\"|" "$TMP/index.html"
