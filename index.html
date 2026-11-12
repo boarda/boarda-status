@@ -10,7 +10,13 @@
   <meta property="og:url" content="https://status.boarda.io/">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)">
-  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/boarda-favicon-blue-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/boarda-favicon-blue-32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/icons/boarda-favicon-blue-96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/boarda-appicon-blue-ios-180.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="alternate" type="application/atom+xml" title="Boarda Status updates" href="/feed.xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
@@ -23,7 +29,7 @@
       if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
     } catch (e) {}
   </script>
-  <link rel="stylesheet" href="/status.css?v=6189be2">
+  <link rel="stylesheet" href="/status.css?v=dfc1343">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -48,6 +54,7 @@
           </button>
         </div>
         <a class="top-link" href="https://boarda.io">boarda.io</a>
+        <button type="button" class="btn-action" id="subscribe-open" aria-haspopup="dialog">Subscribe</button>
       </div>
     </div>
   </header>
@@ -96,7 +103,25 @@
 
   <div id="tip" class="tip" role="tooltip" hidden></div>
 
+  <dialog id="subscribe" class="sheet" aria-labelledby="subscribe-title">
+    <form method="dialog" class="sheet-inner">
+      <div class="sheet-head">
+        <h2 id="subscribe-title">Get status updates</h2>
+        <button type="submit" class="icon-btn" aria-label="Close">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <p class="muted">Follow incidents and scheduled maintenance in any feed reader, or in a Slack channel with Slack's RSS app. A new entry appears when an incident starts, when it is resolved and when maintenance is planned.</p>
+      <label class="field-label" for="feed-url">Atom feed</label>
+      <div class="copy-row">
+        <input id="feed-url" type="text" readonly value="https://status.boarda.io/feed.xml">
+        <button type="button" class="btn-action" id="feed-copy">Copy</button>
+      </div>
+      <p class="small muted"><a href="/feed.xml">Open the feed</a></p>
+    </form>
+  </dialog>
+
   <noscript><p class="wrap muted">This page needs JavaScript to load live status.</p></noscript>
-  <script src="/status.js?v=6189be2" defer></script>
+  <script src="/status.js?v=dfc1343" defer></script>
 </body>
 </html>

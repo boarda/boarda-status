@@ -257,6 +257,37 @@ details.grp[open] > summary .chev svg { transform: rotate(90deg); }
 .dot { width: 10px; height: 10px; border-radius: 2px; background: var(--ok); }
 .dot.minor { background: var(--minor); } .dot.major { background: var(--major); } .dot.none { background: var(--none); }
 
+.svc-list { margin-top: 6px; font-size: 13px; line-height: 1.55; color: var(--muted); }
+
+/* Monochrome action button (Boarda rule: black on light, white on dark). */
+.btn-action {
+  display: inline-flex; align-items: center; justify-content: center; height: 32px; padding: 0 14px;
+  border: 0; border-radius: 8px; background: var(--action); color: var(--action-fg);
+  font: 500 14px/1 "IBM Plex Sans", system-ui, sans-serif; cursor: pointer; white-space: nowrap;
+}
+.btn-action:hover { opacity: 0.88; }
+
+/* Subscribe dialog */
+.sheet {
+  width: min(460px, calc(100vw - 32px)); padding: 0; border: 1px solid var(--border); border-radius: 14px;
+  background: var(--surface); color: var(--text); box-shadow: 0 20px 60px rgb(0 0 0 / 0.25);
+}
+.sheet::backdrop { background: rgb(0 0 0 / 0.45); }
+.sheet-inner { display: grid; gap: 12px; padding: 20px; }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.sheet-head h2 { font-size: 18px; }
+.sheet p { font-size: 14px; }
+.icon-btn { display: inline-grid; place-items: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 8px; background: transparent; color: var(--muted); cursor: pointer; }
+.icon-btn:hover { background: var(--surface-2); color: var(--text); }
+.icon-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.field-label { font-size: 13px; font-weight: 600; margin-top: 4px; }
+.copy-row { display: flex; gap: 8px; }
+.copy-row input {
+  flex: 1; min-width: 0; height: 36px; padding: 0 10px; border: 1px solid var(--border-strong); border-radius: 8px;
+  background: var(--surface-2); color: var(--text); font: 13px "IBM Plex Mono", ui-monospace, monospace;
+}
+.copy-row .btn-action { height: 36px; }
+
 /* Tooltip */
 .tip {
   position: fixed; z-index: 20; max-width: 260px; padding: 10px 12px; border-radius: 8px;
@@ -302,6 +333,10 @@ details.grp[open] > summary .chev svg { transform: rotate(90deg); }
   .grp-items .svc { padding-left: 24px; }
   .brand-sub { font-size: 15px; } .brand-name { font-size: 16px; }
   .top-link { display: none; }
+  .top-actions { gap: 8px; }
+  .brand { gap: 8px; }
+  .brand-sub { padding-left: 8px; }
+  .top .btn-action { padding: 0 11px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
