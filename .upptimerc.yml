@@ -8,11 +8,11 @@ sites:
     slug: studio
     icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
   - name: Boarda Account
-    url: https://account.boarda.io
+    url: https://account.boarda.io/api/health
     slug: account
     icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
   - name: Boarda Developers
-    url: https://developers.boarda.io
+    url: https://developers.boarda.io/api/health
     slug: developers
     icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
   - name: Boarda Cast
@@ -27,7 +27,42 @@ sites:
     url: https://boarda.io
     slug: website
     icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Boarda Browser - Web
+    url: https://app.boarda.io
+    slug: browser-web
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Boarda Space pages
+    url: https://spaces.boarda.io/api/health
+    slug: spaces
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Boarda Ads
+    url: https://ads.boarda.io/api/health
+    slug: ads
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Boarda Pages
+    url: https://pages.boarda.io/api/health
+    slug: pages
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Boarda Community
+    url: https://community.boarda.io/api/health
+    slug: community
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Boarda Support
+    url: https://support.boarda.io/api/health
+    slug: support
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Boarda Help Center
+    url: https://help.boarda.io
+    slug: help
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Boarda MCP
+    url: https://mcp.boarda.io/_health
+    slug: mcp
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
 
+# The public page is our own (page/, scripts/deploy-page.sh, BRDSPRINT-468/470).
+# Setup CI and Static Site CI are DISABLED: both would publish the stock Upptime site over it.
+# After changing sites here, run: gh workflow run uptime.yml && gh workflow run response-time.yml
 status-website:
   cname: status.boarda.io
   name: Boarda
