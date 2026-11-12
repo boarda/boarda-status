@@ -23,7 +23,7 @@
   // on the Boarda API, so they show the API's check and say so.
   var NATIVE = "Runs on the Boarda API";
   var CATALOG = [
-    { group: "Apps", items: [
+    { group: "Boarda Browser", items: [
       { name: "Boarda Browser - Web", checks: ["browser-web"], sub: "app.boarda.io" },
       { name: "Boarda Browser - iOS", checks: ["api-gateway"], sub: NATIVE },
       { name: "Boarda Browser - Android", checks: ["api-gateway"], sub: NATIVE }
@@ -37,6 +37,29 @@
       { name: "Boarda Ads", checks: ["ads"], sub: "ads.boarda.io" },
       { name: "Boarda Cast", checks: ["cast"], sub: "cast.boarda.io" },
       { name: "Boarda Pages", checks: ["pages"], sub: "pages.boarda.io" }
+    ] },
+    // Live apps in the Boarda Marketplace (spc_marketplace_apps.is_active, 12 Nov 2026). Apps with
+    // their own service get their own check; the rest run inside Boarda on the API. Update this list
+    // when an app goes live or is retired.
+    { group: "Boarda Marketplace", unit: "live apps", items: [
+      { name: "Appointments", checks: ["app-appointments"], sub: "appointments.apps.boarda.io" },
+      { name: "Check-in", checks: ["app-checkin"], sub: "Hosted app" },
+      { name: "City Pass", checks: ["app-city-pass"], sub: "Hosted app" },
+      { name: "MeinTurnierplan", checks: ["app-meinturnierplan"], sub: "meinturnierplan.apps.boarda.io" },
+      { name: "Order Kiosk", checks: ["app-order-kiosk"], sub: "order-kiosk.apps.boarda.io" },
+      { name: "Queues", checks: ["app-queues"], sub: "queues.apps.boarda.io" },
+      { name: "Stamp Passport", checks: ["app-stamps"], sub: "Hosted app" },
+      { name: "Stripe Payments", checks: ["app-stripe"], sub: "Hosted app" },
+      { name: "Tournament", checks: ["app-tournament"], sub: "tournament.apps.boarda.io" },
+      { name: "Built-in apps", checks: ["api-gateway"], sub: NATIVE, list: [
+        "Ads / Promotion", "Agenda", "AR Treasure Hunt", "Article", "Book a Table", "Bus Stop Timetable",
+        "Community", "Creator reviews", "Digital Menu", "FAQ", "Feed", "Feedback", "Flights", "Google Maps",
+        "Gym Class Schedule", "HubSpot", "Images", "Instagram", "Links", "Live Bus Map", "Live Polls",
+        "Live Questions", "Loyalty Card", "MappedIn", "Matterport", "My Flight", "Neighborhood Marketplace",
+        "NFC Check-In", "Opening Hours", "OpenStreetMap", "Order Tracking", "Parking Payment", "Point Details",
+        "Queue Ticket", "Quick Actions", "Reminders", "Reviews", "Social", "Speakers", "Sponsors",
+        "Step Rewards", "TikTok", "Updates", "Wait Times", "Welcome", "Welcome + RSVP", "WiFi Details"
+      ] }
     ] },
     { group: "Public pages and help", items: [
       { name: "Boarda Space pages", checks: ["spaces"], sub: "spaces.boarda.io" },
@@ -71,7 +94,16 @@
     account: "Boarda Account and sign-in",
     "short-links": "Boarda short links",
     mcp: "Boarda MCP",
-    developers: "Boarda Developers"
+    developers: "Boarda Developers",
+    "app-appointments": "Appointments",
+    "app-checkin": "Check-in",
+    "app-city-pass": "City Pass",
+    "app-meinturnierplan": "MeinTurnierplan",
+    "app-order-kiosk": "Order Kiosk",
+    "app-queues": "Queues",
+    "app-stamps": "Stamp Passport",
+    "app-stripe": "Stripe Payments",
+    "app-tournament": "Tournament"
   };
 
   var CHECKS = [];
@@ -385,7 +417,7 @@
         var incs = [];
         cs.forEach(function (c) { c.incidents.forEach(function (i) { if (incs.indexOf(i) === -1) incs.push(i); }); });
         rows.push({
-          id: it.id, name: it.name, sub: it.sub, group: g.group, native: it.sub === NATIVE,
+          id: it.id, name: it.name, sub: it.sub, group: g.group, native: it.sub === NATIVE, list: it.list || null,
           state: state, days: days, badDays: badDays, incidents: incs,
           uptime: ups.length ? Math.min.apply(null, ups) : null
         });
@@ -508,7 +540,7 @@
   }
 
   // One group: the worst of its rows, day by day.
-  function groupSummary(name, rows) {
+  function groupSummary(name, rows, unit) {
     var state = "none", days = [], badDays = 0, incs = [];
     rows.forEach(function (r) {
       if (RANK[r.state] > RANK[state]) state = r.state;
@@ -526,7 +558,10 @@
     var ups = rows.map(function (r) { return r.uptime; }).filter(function (u) { return u != null; });
     return {
       id: "group-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
-      name: name, sub: rows.length + (rows.length === 1 ? " service" : " services"),
+      name: name,
+      sub: unit
+        ? rows.reduce(function (n, r) { return n + (r.list ? r.list.length : 1); }, 0) + " " + unit
+        : rows.length + (rows.length === 1 ? " service" : " services"),
       state: state, days: days, badDays: badDays, incidents: incs,
       uptime: ups.length ? Math.min.apply(null, ups) : null
     };
@@ -542,7 +577,7 @@
     CATALOG.forEach(function (g) {
       var rows = data.rows.filter(function (r) { return r.group === g.group; });
       if (!rows.length) return;
-      var sum = groupSummary(g.group, rows);
+      var sum = groupSummary(g.group, rows, g.unit);
       lookup[sum.id] = sum;
 
       var det = el("details", "grp");
@@ -579,10 +614,12 @@
       left.appendChild(chev);
     }
     left.appendChild(el("span", "svc-name", s.name));
-    if (s.sub) left.appendChild(el("span", isGroup || s.native ? "svc-note" : "svc-host", s.sub));
+    var isHost = /^[a-z0-9.-]+\.[a-z]{2,}(\/\S*)?$/i.test(s.sub || "");
+    if (s.sub) left.appendChild(el("span", !isGroup && isHost ? "svc-host" : "svc-note", s.sub));
     top.appendChild(left);
     top.appendChild(el("span", "svc-state " + s.state, STATE_LABEL[s.state]));
     row.appendChild(top);
+    if (s.list) row.appendChild(el("p", "svc-list", s.list.length + " apps: " + s.list.join(", ")));
 
     var bars = el("div", "bars");
     bars.setAttribute("data-key", s.id);
@@ -693,6 +730,7 @@
     });
   });
   HASH_ALIAS.studio = "boarda-studio";
+  HASH_ALIAS["api-gateway"] = "boarda-api";
 
   function focusHash() {
     var slug = decodeURIComponent(location.hash.slice(1));
@@ -774,6 +812,32 @@
     if (!(e.target.classList && e.target.classList.contains("bar"))) hideTip();
   });
   window.addEventListener("scroll", hideTip, { passive: true });
+
+  /* ---------- subscribe ---------- */
+
+  var dlg = document.getElementById("subscribe");
+  var openBtn = document.getElementById("subscribe-open");
+  if (dlg && openBtn) {
+    openBtn.addEventListener("click", function () {
+      if (typeof dlg.showModal === "function") dlg.showModal();
+      else location.href = "/feed.xml";
+    });
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+    var copyBtn = document.getElementById("feed-copy");
+    var input = document.getElementById("feed-url");
+    copyBtn.addEventListener("click", function () {
+      var done = function () {
+        copyBtn.textContent = "Copied";
+        setTimeout(function () { copyBtn.textContent = "Copy"; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(input.value).then(done, function () { input.select(); });
+      } else {
+        input.select();
+        try { document.execCommand("copy"); done(); } catch (e) {}
+      }
+    });
+  }
 
   /* ---------- start ---------- */
 

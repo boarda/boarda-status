@@ -59,6 +59,42 @@ sites:
     url: https://mcp.boarda.io/_health
     slug: mcp
     icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Appointments
+    url: https://appointments.apps.boarda.io/health
+    slug: app-appointments
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Check-in
+    url: https://ioboardaappcheckin-production.up.railway.app/health
+    slug: app-checkin
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: City Pass
+    url: https://ioboardaappcitypass-production.up.railway.app/health
+    slug: app-city-pass
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: MeinTurnierplan
+    url: https://meinturnierplan.apps.boarda.io/health
+    slug: app-meinturnierplan
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Order Kiosk
+    url: https://order-kiosk.apps.boarda.io/health
+    slug: app-order-kiosk
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Queues
+    url: https://queues.apps.boarda.io/health
+    slug: app-queues
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Stamp Passport
+    url: https://ioboardaappstamps-production.up.railway.app/health
+    slug: app-stamps
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Stripe Payments
+    url: https://ioboardaappstripe-production.up.railway.app/health
+    slug: app-stripe
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
+  - name: Tournament
+    url: https://tournament.apps.boarda.io/health
+    slug: app-tournament
+    icon: https://cdn.jsdelivr.net/gh/boarda/boarda-status@v1.0.1/assets/icon.svg
 
 # The public page is our own (page/, scripts/deploy-page.sh, BRDSPRINT-468/470).
 # Setup CI and Static Site CI are DISABLED: both would publish the stock Upptime site over it.
